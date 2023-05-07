@@ -43,7 +43,7 @@ _coming soon_
 
 ## Copyright
 
-Author Francesco Sullo <francesco@sullo.co>
+(2023), Francesco Sullo <francesco@sullo.co>, Cruna
 
 ## License
 
