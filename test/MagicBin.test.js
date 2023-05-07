@@ -56,6 +56,11 @@ describe("MagicBin", function () {
       expect(metadata.creator).to.equal(sullof.address.toLowerCase());
       expect(metadata.createdAtBlock > blockNumber).to.be.true;
 
+      const seriesWithNames = await magicBin.seriesByCreatorWithNames(twitter.address);
+      expect(seriesWithNames.length).to.equal(2);
+      expect(seriesWithNames[0]).to.equal("2 Twitter");
+      expect(seriesWithNames[1]).to.equal("3 Twitter2");
+
     });
 
 });
