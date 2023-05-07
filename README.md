@@ -37,10 +37,9 @@ await magicBin.metadata(seriesId);
 
 ## Can I use it?
 
-Yes, The contract has been deployed at the following addresses: 
+Yes, The contract has been deployed at: 
 
-- Goerli: [0x7a2b8c6e3f1e7d5d7f9c1a7b4e8f5c4a3f3c9b4b](https://goerli.etherscan.io/address/0x7a2b8c6e3f1e7d5d7f9c1a7b4e8f5c4a3f3c9b4b)
-- Polygon: [0x7a2b8c6e3f1e7d5d7f9c1a7b4e8f5c4a3f3c9b4b](https://polygonscan.com/address/0x7a2b8c6e3f1e7d5d7f9c1a7b4e8f5c4a3f3c9b4b)
+_coming soon_
 
 ## Copyright
 
