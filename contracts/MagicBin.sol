@@ -17,6 +17,7 @@ contract MagicBin is ERC1155, Ownable {
   error NotTheSeriesCreator();
   error InconsistentArrays();
   error SeriesNotFound();
+  error NotBurnable();
 
   uint256 private _nextSeriesId;
 
@@ -27,6 +28,7 @@ contract MagicBin is ERC1155, Ownable {
     string name;
     string description;
     string image;
+    bool burnable;
   }
 
   mapping(uint256 => Series) internal _series;
@@ -34,6 +36,11 @@ contract MagicBin is ERC1155, Ownable {
 
   modifier onlySeriesCreator(uint256 seriesId) {
     if (_msgSender() != _series[seriesId].creator) revert NotTheSeriesCreator();
+    _;
+  }
+
+  modifier onlyBurnable(uint256 seriesId) {
+    if (!_series[seriesId].burnable) revert NotBurnable();
     _;
   }
 
@@ -49,14 +56,16 @@ contract MagicBin is ERC1155, Ownable {
   function createSeries(
     string memory name,
     string memory description,
-    string memory image
+    string memory image,
+    bool burnable
   ) public {
     _series[++_nextSeriesId] = Series({
       createdAtBlock: block.number,
       creator: _msgSender(),
       name: name,
       description: description,
-      image: image
+      image: image,
+      burnable: burnable
     });
     _seriesByCreator[_msgSender()].push(_nextSeriesId);
   }
@@ -82,7 +91,7 @@ contract MagicBin is ERC1155, Ownable {
     uint256 seriesId,
     address[] memory recipients,
     uint256[] memory amounts
-  ) public onlySeriesCreator(seriesId) {
+  ) public onlySeriesCreator(seriesId) onlyBurnable(seriesId) {
     if (recipients.length != amounts.length) revert InconsistentArrays();
     for (uint256 i = 0; i < recipients.length; i++) {
       _burn(recipients[i], seriesId, amounts[i]);
@@ -120,8 +129,10 @@ contract MagicBin is ERC1155, Ownable {
           // solhint-disable-next-line quotes
           '","image":"',
           _series[seriesId].image,
+          '","burnable":',
+          _series[seriesId].burnable ? "true" : "false",
           // solhint-disable-next-line quotes
-          '","creator":"',
+          ',"creator":"',
           _addressToString(_series[seriesId].creator),
           // solhint-disable-next-line quotes
           '","seriesId":',

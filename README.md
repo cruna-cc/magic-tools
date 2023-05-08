@@ -10,7 +10,8 @@ For example, if Twitter wants to give operators a working hours badge. It can cr
 await magicBin.createNewSeries(
   "Twitter Working Hours Badge",
   "A series to rewards decentralized Twitter operators",
-  "https://twitter.com/Twitter/photo"
+  "https://twitter.com/Twitter/photo",
+  false // not burnable by the creator
 )
 ```
 and get the new series ID calling

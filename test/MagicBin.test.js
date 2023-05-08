@@ -23,7 +23,7 @@ describe("MagicBin", function () {
     it("should create two series and verify their ID", async function () {
       const blockNumber = await getBlockNumber();
 
-      await magicBin.connect(sullof).createSeries("Sullof", "A Series for Sullof", "https://twitter.com/sullof/photo");
+      await magicBin.connect(sullof).createSeries("Sullof", "A Series for Sullof", "https://twitter.com/sullof/photo", true);
 
       let sullofSeries = await magicBin.seriesByCreator(sullof.address);
       expect(sullofSeries[0].toNumber()).to.equal(1);
@@ -32,8 +32,8 @@ describe("MagicBin", function () {
       expect(twitterSeries.length).to.equal(0);
 
 
-      await magicBin.connect(twitter).createSeries("Twitter", "A Series for Twitter", "https://twitter.com/twitter/photo");
-      await magicBin.connect(twitter).createSeries("Twitter2", "A 2nd Series for Twitter", "https://twitter.com/twitterdev/photo");
+      await magicBin.connect(twitter).createSeries("Twitter", "A Series for Twitter", "https://twitter.com/twitter/photo", false);
+      await magicBin.connect(twitter).createSeries("Twitter2", "A 2nd Series for Twitter", "https://twitter.com/twitterdev/photo", false);
       twitterSeries = await magicBin.seriesByCreator(twitter.address);
       expect(twitterSeries.length).to.equal(2);
 
@@ -50,6 +50,9 @@ describe("MagicBin", function () {
       expect(magicBin.connect(sullof).mint(1, [bob.address], [24, 120])).revertedWith("InconsistentArrays()");
 
       const metadata = JSON.parse(await magicBin.metadata(1));
+
+      console.log(metadata);
+
       expect(metadata.name).to.equal("Sullof");
       expect(metadata.description).to.equal("A Series for Sullof");
       expect(metadata.image).to.equal("https://twitter.com/sullof/photo");
