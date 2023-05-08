@@ -5879,7 +5879,7 @@ abstract contract SuperpowerNFT is ISuperpowerNFT, SuperpowerNFTBase {
   }
 }
 
-// File contracts/MagicBin.sol
+// File contracts/MagicSeries.sol
 
 // License: MIT
 pragma solidity ^0.8.4;

@@ -6,11 +6,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-// MagicBin allows anyone to create a series, defining name, description and image
+// MagicSeries allows anyone to create a series, defining name, description and image
 // for the series. Then, the series creator, can distribute new tokens for that series to
 // whoever s/he/they wants.
 
-contract MagicBin is ERC1155, Ownable {
+contract MagicSeries is ERC1155, Ownable {
   using Address for address;
   using Strings for uint256;
 
@@ -49,6 +49,7 @@ contract MagicBin is ERC1155, Ownable {
     _;
   }
 
+  // solhint-disable-next-line
   constructor() ERC1155("") {
     _setURI(string(abi.encodePacked("https://meta.cruna.cc/magic-bin/", block.chainid.toString(), "/{id}")));
   }
@@ -129,6 +130,7 @@ contract MagicBin is ERC1155, Ownable {
           // solhint-disable-next-line quotes
           '","image":"',
           _series[seriesId].image,
+          // solhint-disable-next-line quotes
           '","burnable":',
           _series[seriesId].burnable ? "true" : "false",
           // solhint-disable-next-line quotes
@@ -140,24 +142,22 @@ contract MagicBin is ERC1155, Ownable {
           // solhint-disable-next-line quotes
           ',"createdAtBlock":',
           _series[seriesId].createdAtBlock.toString(),
-          // solhint-disable-next-line quotes
-          '}'
+          "}"
         )
       );
   }
 
-  function _addressToString(address _addr) public pure returns(string memory) {
+  function _addressToString(address _addr) internal pure returns (string memory) {
     bytes32 value = bytes32(uint256(uint160(_addr)));
     bytes memory alphabet = "0123456789abcdef";
 
     bytes memory str = new bytes(42);
-    str[0] = '0';
-    str[1] = 'x';
+    str[0] = "0";
+    str[1] = "x";
     for (uint256 i = 0; i < 20; i++) {
       str[2 + i * 2] = alphabet[uint8(value[i + 12] >> 4)];
       str[3 + i * 2] = alphabet[uint8(value[i + 12] & 0x0f)];
     }
     return string(str);
   }
-
 }

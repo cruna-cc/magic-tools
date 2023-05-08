@@ -17,7 +17,7 @@ async function main() {
   console.log("Deploying contracts with the account:", deployer.address, "to", network);
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  const wl = await deployUtils.deploy("MagicBin");
+  const wl = await deployUtils.deploy("MagicSeries");
 }
 
 main()
