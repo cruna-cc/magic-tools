@@ -78,6 +78,17 @@ contract MagicBin is ERC1155, Ownable {
     }
   }
 
+  function burn(
+    uint256 seriesId,
+    address[] memory recipients,
+    uint256[] memory amounts
+  ) public onlySeriesCreator(seriesId) {
+    if (recipients.length != amounts.length) revert InconsistentArrays();
+    for (uint256 i = 0; i < recipients.length; i++) {
+      _burn(recipients[i], seriesId, amounts[i]);
+    }
+  }
+
   function seriesByCreator(address creator) public view returns (uint256[] memory) {
     return _seriesByCreator[creator];
   }

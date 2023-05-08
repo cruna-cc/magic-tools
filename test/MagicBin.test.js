@@ -61,6 +61,10 @@ describe("MagicBin", function () {
       expect(seriesWithNames[0]).to.equal("2 Twitter");
       expect(seriesWithNames[1]).to.equal("3 Twitter2");
 
+      await magicBin.connect(sullof).burn(1, [bob.address, john.address], [10, 120]);
+      expect(await magicBin.balanceOf(bob.address, 1)).to.equal(38);
+      expect(await magicBin.balanceOf(john.address, 1)).to.equal(0);
+
     });
 
 });
