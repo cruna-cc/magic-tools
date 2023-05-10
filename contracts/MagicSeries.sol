@@ -2,7 +2,6 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
@@ -10,7 +9,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 // for the series. Then, the series creator, can distribute new tokens for that series to
 // whoever s/he/they wants.
 
-contract MagicSeries is ERC1155, Ownable {
+contract MagicSeries is ERC1155 {
   using Address for address;
   using Strings for uint256;
 
