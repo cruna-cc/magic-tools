@@ -13,6 +13,7 @@ contract MagicSeries is ERC1155 {
   using Address for address;
   using Strings for uint256;
 
+  // @dev Emitted when a new series is created
   event SeriesCreated(
     uint256 indexed seriesId,
     address indexed creator,
@@ -23,10 +24,13 @@ contract MagicSeries is ERC1155 {
     address burner
   );
 
+  // @dev Emitted when the minter for a series is updated
   event SeriesMinterUpdated(uint256 indexed seriesId, address indexed minter);
 
+  // @dev Emitted when the burner for a series is updated
   event SeriesBurnerUpdated(uint256 indexed seriesId, address indexed burner);
 
+  // @dev Emitted when the metadata for a series is updated
   event SeriesMetadataUpdated(uint256 indexed seriesId, string name, string description, string image);
 
   error NotTheSeriesCreator();
@@ -53,26 +57,33 @@ contract MagicSeries is ERC1155 {
     address burner;
   }
 
+  // @dev Series data
   mapping(uint256 => Series) internal _series;
+
+  // @dev Series ids by creator
   mapping(address => uint256[]) private _seriesByCreator;
 
+  // @dev checks that only the series' creator can do something
   modifier onlySeriesCreator(uint256 seriesId) {
     if (_msgSender() != _series[seriesId].creator) revert NotTheSeriesCreator();
     _;
   }
 
+  // @dev checks that only the series' minter can do something
   modifier onlySeriesMinter(uint256 seriesId) {
     if (address(0) == _series[seriesId].minter) revert MintingHasEnded();
     if (_msgSender() != _series[seriesId].minter) revert NotTheSeriesMinter();
     _;
   }
 
+  // @dev checks that only the series' burner can do something
   modifier onlySeriesBurner(uint256 seriesId) {
     if (address(0) == _series[seriesId].burner) revert NotBurnable();
     if (_msgSender() != _series[seriesId].burner) revert NotTheSeriesBurner();
     _;
   }
 
+  // @dev checks that the series exists
   modifier seriesExists(uint256 seriesId) {
     if (_series[seriesId].creator == address(0)) revert SeriesNotFound();
     _;
@@ -80,6 +91,10 @@ contract MagicSeries is ERC1155 {
 
   // solhint-disable-next-line
   constructor() ERC1155("") {
+    // The Cruna metadata API will get the data from the smart contract and format them
+    // in the metadata format used by major players. For better performances, the metadata
+    // are cached. Look at meta.cruna.cc to know how to force the refresh of the cache for
+    // a specific series.
     _setURI(string(abi.encodePacked("https://meta.cruna.cc/magic-series/", block.chainid.toString(), "/{id}")));
   }
 
