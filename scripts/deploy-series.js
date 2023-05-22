@@ -1,7 +1,7 @@
 require("dotenv").config();
 const hre = require("hardhat");
 const ethers = hre.ethers;
-const {getCurrentTimestamp} = require("hardhat/internal/hardhat-network/provider/utils/getCurrentTimestamp");
+
 const DeployUtils = require("./lib/DeployUtils");
 let deployUtils;
 
